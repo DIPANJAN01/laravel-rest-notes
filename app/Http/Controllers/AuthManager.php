@@ -33,14 +33,14 @@ class AuthManager extends Controller
 
         $user = User::where('email', $validatedData['email'])->first();
 
-        if (empty(($user))) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'User not found'
-            ], 404);
-        }
+        // if (empty(($user))) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'User not found'
+        //     ], 404);
+        // }
 
-        if (!Hash::check($validatedData['password'], $user->password)) {
+        if (empty(($user)) || !Hash::check($validatedData['password'], $user->password)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Incorrect credentials'
@@ -61,6 +61,15 @@ class AuthManager extends Controller
             'data' => [
                 'user' => Auth::user()
             ]
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::user()->tokens()->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'user logged out'
         ]);
     }
 }

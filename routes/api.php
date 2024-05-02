@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 // Route::get('/user', function (Request $request) {
@@ -17,8 +18,9 @@ Route::post('/register', [AuthManager::class, 'register']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', [AuthManager::class, 'profile']);
+    Route::get('/logout', [AuthManager::class, 'logout']);
 
     Route::get('/yo', function (Request $request) {
-        return response()->json("Hello");
+        return response()->json("Hello " . Auth::user()->name);
     });
 });
