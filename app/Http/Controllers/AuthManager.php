@@ -8,6 +8,21 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthManager extends Controller
 {
+    public function register(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => ['required', 'string', 'email', 'unique:users'],
+            'name' => ['required', 'string'],
+            'password' => ['required', 'string', 'confirmed'],
+        ]);
+        $validatedData['password'] = bcrypt($validatedData['password']);
+        $savedUser = User::create($validatedData);
+        return response()->json([
+            'status' => 'success',
+            'data' => ['user' => $savedUser]
+        ], 201);
+    }
+
     public function login(Request $request)
     {
         $validatedData = $request->validate([

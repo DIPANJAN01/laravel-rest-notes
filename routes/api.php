@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 // })->middleware('auth:sanctum');
 
 Route::post('/login', [AuthManager::class, 'login']);
+Route::post('/register', [AuthManager::class, 'register']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
