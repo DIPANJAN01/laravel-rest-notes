@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthManager extends Controller
@@ -50,6 +51,16 @@ class AuthManager extends Controller
         return response()->json([
             'status' => 'success',
             'token' => $token,
-        ], 200);
+        ]);
+    }
+
+    public function profile(Request $request)
+    {
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'user' => Auth::user()
+            ]
+        ]);
     }
 }
