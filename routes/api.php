@@ -21,10 +21,11 @@ Route::post('/register', [AuthManager::class, 'register'])->name('register');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', [AuthManager::class, 'profile'])->name('profile');
     Route::get('/logout', [AuthManager::class, 'logout'])->name('logout');
+    Route::delete('/profile', [AuthManager::class, 'deleteAccount'])->name('deleteAccount');
 
-    Route::get('/yo', function (Request $request) {
-        return response()->json("Hello " . Auth::user()->name)->name('user.yo');
-    });
+    Route::get('/yo', function () {
+        return response()->json("Hello " . Auth::user()->name);
+    })->name('user.yo');
 
     Route::apiResource("notes", NoteController::class);
 });

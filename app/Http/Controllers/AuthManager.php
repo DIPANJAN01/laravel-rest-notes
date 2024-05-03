@@ -54,7 +54,7 @@ class AuthManager extends Controller
         ]);
     }
 
-    public function profile(Request $request)
+    public function profile()
     {
         Auth::user()->notes; //simply referencing it once makes it appear inside Auth::user()
         return response()->json([
@@ -69,12 +69,23 @@ class AuthManager extends Controller
     /**
      * @disregard P1013
      */
-    public function logout(Request $request)
+    public function logout()
     {
         Auth::user()->tokens()->delete();
         return response()->json([
             'status' => 'success',
             'message' => 'user logged out'
+        ]);
+    }
+
+    public function deleteAccount()
+    {
+        $user = User::find(Auth::id());
+        $user->tokens()->delete();
+        $user->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User ' . $user->name . ' deleted'
         ]);
     }
 }
