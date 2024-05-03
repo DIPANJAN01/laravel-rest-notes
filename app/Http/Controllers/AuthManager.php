@@ -56,14 +56,19 @@ class AuthManager extends Controller
 
     public function profile(Request $request)
     {
+        Auth::user()->notes; //simply referencing it once makes it appear inside Auth::user()
         return response()->json([
             'status' => 'success',
             'data' => [
-                'user' => Auth::user()
+                'user' => Auth::user(),
+                // 'notes' => Auth::user()->notes,
             ]
         ]);
     }
 
+    /**
+     * @disregard P1013
+     */
     public function logout(Request $request)
     {
         Auth::user()->tokens()->delete();

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\AuthManager;
+use App\Http\Controllers\NoteController;
+use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -13,14 +15,16 @@ use Illuminate\Support\Facades\Hash;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-Route::post('/login', [AuthManager::class, 'login']);
-Route::post('/register', [AuthManager::class, 'register']);
+Route::post('/login', [AuthManager::class, 'login'])->name('login');
+Route::post('/register', [AuthManager::class, 'register'])->name('register');
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/profile', [AuthManager::class, 'profile']);
-    Route::get('/logout', [AuthManager::class, 'logout']);
+    Route::get('/profile', [AuthManager::class, 'profile'])->name('profile');
+    Route::get('/logout', [AuthManager::class, 'logout'])->name('logout');
 
     Route::get('/yo', function (Request $request) {
-        return response()->json("Hello " . Auth::user()->name);
+        return response()->json("Hello " . Auth::user()->name)->name('user.yo');
     });
+
+    Route::apiResource("notes", NoteController::class);
 });
